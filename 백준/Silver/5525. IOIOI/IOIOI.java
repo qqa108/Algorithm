@@ -13,23 +13,28 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         String s = st.nextToken();
 
-        String ans = "";
-        for (int i = 0; i < N; i++) {
-            ans = ans + "IO";
-        }
-        ans = ans + "I";
-
         int idx = 0;
-        int count = 0;
-        while (idx + (2 * N) + 1 <= s.length()) {
-            if (ans.equals(s.substring(idx, idx + (2 * N) + 1))) {
+        int cnt = 0;
+        int answer = 0;
+
+        while (idx < S) {
+            if (idx + 2 < S && s.charAt(idx) == 'I' && s.charAt(idx + 1) == 'O' && s.charAt(idx + 2) == 'I') {
+                cnt++;
                 idx = idx + 2;
-                count++;
             }
             else {
+                if (cnt >= N) {
+                    answer = answer + cnt - N + 1;
+                    cnt = 0;
+                    continue;
+                }
+                cnt = 0;
                 idx++;
             }
         }
-        System.out.println(count);
+        if (cnt >= N) {
+            answer = answer + cnt - N + 1;
+        }
+        System.out.println(answer);
     }
 }
