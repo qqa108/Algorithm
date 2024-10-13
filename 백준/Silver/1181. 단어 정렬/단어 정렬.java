@@ -6,22 +6,23 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
-        Word arr[] = new Word[N];
         HashMap<String, Boolean> hash = new HashMap<>();
         StringBuilder sb = new StringBuilder();
+        PriorityQueue<Word> pq = new PriorityQueue<>();
 
-        for(int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             String s = st.nextToken();
-            arr[i] = new Word(s);
-        }
-        Arrays.sort(arr);
-        for(int i=0; i<N; i++) {
-            if(hash.containsKey(arr[i].word)) {
+            if (hash.containsKey(s)) {
                 continue;
             }
-            hash.put(arr[i].word, true);
-            sb.append(arr[i].word).append("\n");
+            hash.put(s, true);
+            pq.add(new Word(s));
+        }
+
+        while (!pq.isEmpty()) {
+            Word now = pq.poll();
+            sb.append(now.word).append("\n");
         }
         System.out.println(sb);
     }
@@ -35,10 +36,9 @@ public class Main {
 
         @Override
         public int compareTo(Word o) {
-            if(this.word.length() == o.word.length()) {
+            if (this.word.length() == o.word.length()) {
                 return this.word.compareTo(o.word);
-            }
-            else if(this.word.length() < o.word.length()) {
+            } else if (this.word.length() < o.word.length()) {
                 return -1;
             }
             return 1;
