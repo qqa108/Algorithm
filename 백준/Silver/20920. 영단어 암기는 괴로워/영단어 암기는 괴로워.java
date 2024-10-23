@@ -21,16 +21,15 @@ public class Main {
             }
         }
 
-        Word arr[] = new Word[hash.size()];
-        int idx = 0;
+        PriorityQueue<Word> pq = new PriorityQueue<>();
         for (String key : hash.keySet()) {
-            arr[idx++] = new Word(hash.get(key), key);
+            pq.add(new Word(hash.get(key), key));
         }
-        Arrays.sort(arr);
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i].w).append("\n");
+        while (!pq.isEmpty()) {
+            Word word = pq.poll();
+            sb.append(word.w).append('\n');
         }
         System.out.println(sb);
     }
