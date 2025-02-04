@@ -1,41 +1,52 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public int solution(String skill, String[] skill_trees) {
-        HashMap<Character, Integer> hash = new HashMap<>();
-        
-        int idx = 0;
-        for(int i=0; i<skill.length(); i++) {
-            hash.put(skill.charAt(i), ++idx);
+        int answer = -1;
+        int possible = 0;
+        int len = skill.length();
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i = 0 ; i < len; i++){
+            map.put(skill.charAt(i), i);
         }
-        
-        int answer = 0;
-        for(int t=0; t<skill_trees.length; t++) {
-            String s = skill_trees[t];
-            
-            int pre = 1;
+        int size = skill_trees.length;
+        for(int i = 0; i < size; i++){
+            boolean []isUsed = new boolean[len];
             boolean check = true;
-            for(int i=0; i<s.length(); i++) {
-                char now = s.charAt(i);
-                
-                
-                if(hash.containsKey(now)) {
-                    if(hash.get(now) > pre) {
-                        check = false;
-                        break;
+            for(int j = 0; j < skill_trees[i].length(); j++){
+                char now = skill_trees[i].charAt(j);
+                if(map.containsKey(now)){
+                    int idx = map.get(now);
+                    System.out.println("1. now : " + now);
+                    System.out.println("2. idx : " + idx);
+                    System.out.println("3. 현재 단어 : " + skill_trees[i]);
+                    if(idx == 0){
+                        isUsed[idx] = true;
+                        System.out.println("idx가 0입니다.");
                     }
-                    pre++;
-                
-                    
+                    else{
+                        System.out.println("우선 idx는 0이 아님");
+                        if(isUsed[idx-1] == false){
+                            System.out.println("4. idx : " + idx);
+                            System.out.println("이전 idx가 사용되지 않았어요.");
+                            check = false;
+                            break;
+                        }
+                        else{
+                            isUsed[idx] = true;
+                            System.out.println("5. 현재 idx 통과");
+                        }
+                    }
                 }
-                
             }
-            if(check) {
-                answer++;
-            }
+            System.out.println("한 단어 끝남..");
+            if(check)
+                possible++;
         }
-        
-        return answer;
+        if(possible > 0)
+            return possible;
+        else
+            return answer;
     }
 }
